@@ -10,36 +10,52 @@ function App() {
   const [position, setPosition] = useState("")
   const [wage, setWage] = useState(0)
 
+  const [employeeList, setEmployeeList] = useState([])
+
+
   //Esta es la info que se le envia al backend una vez apretado el boton
-  const addEmployee = () =>{
+  const addEmployee = () => {
     Axios.post("http://localhost:3001/create", {
-      name: name, 
-      age: age, 
+      name: name,
+      age: age,
       country: country,
       position: position,
       wage: wage
     }).then(() => {
-      console.log("sucess")
+      setEmployeeList([...employeeList, {
+        name: name,
+        age: age,
+        country: country,
+        position: position,
+        wage: wage
+      }])
     })
   }
 
-  const handleName = (e)=>{
+  const getEmployees = () => {
+    Axios.get("http://localhost:3001/employees", {
+    }).then((response) => {
+      setEmployeeList(response.data)
+    })
+  }
+
+  const handleName = (e) => {
     setName(e.target.value)
   }
 
-  const handleAge = (e)=>{
+  const handleAge = (e) => {
     setAge(e.target.value)
   }
 
-  const handleCountry = (e) =>{
+  const handleCountry = (e) => {
     setCountry(e.target.value)
   }
 
-  const handlePosition = (e)=>{
+  const handlePosition = (e) => {
     setPosition(e.target.value)
   }
 
-  const handleWage = (e)=>{
+  const handleWage = (e) => {
     setWage(e.target.value)
   }
 
@@ -58,6 +74,23 @@ function App() {
         <label>Wage (year):</label>
         <input type="number" onChange={handleWage} />
         <button onClick={addEmployee}>Add Employee</button>
+      </div>
+      <hr />
+
+      <div className='employees'>
+        <button onClick={getEmployees}>Show Employees</button>
+
+        {employeeList.map((val, key) => {
+          return (
+            <div className='employee' key={key}>
+              <h3>Name: {val.name}</h3>
+              <h3>Age: {val.age}</h3>
+              <h3>Country: {val.country}</h3>
+              <h3>Position: {val.position}</h3>
+              <h3>Salary: {val.wage}</h3>
+            </div>
+          )
+        })}
       </div>
     </div>
   );
