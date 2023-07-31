@@ -13,7 +13,7 @@
   width: 100%;
 }
 
-.information input{
+input{
   width: 300px;
   height: 30px;
   font-size: 20px;
@@ -57,4 +57,11 @@ button:hover{
 
 .employee h3{
   margin: 25px;
+}
+
+.update{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
